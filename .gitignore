@@ -1,0 +1,16 @@
+# 操作系统 / 编辑器
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 依赖与构建产物（本项目为纯静态，无依赖）
+node_modules/
+
+# 日志与本地私密配置
+*.log
+.env
+.env.local
+
+# WorkBuddy 项目数据（不入库）
+.workbuddy/

@@ -117,7 +117,12 @@ body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", 
 .wrong-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; box-shadow: var(--shadow); }
 .wrong-card.done { opacity: .72; }
 .wrong-stem { font-weight: 600; margin: 6px 0; }
-.wrong-ans { font-size: 13px; color: var(--sub); }
+.wrong-ans { font-size: 13px; color: var(--sub); display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.ans-row { display: flex; align-items: flex-start; gap: 8px; padding: 6px 10px; border-radius: 6px; border: 1px solid transparent; line-height: 1.5; }
+.ans-row .ans-label { flex: 0 0 60px; font-weight: 700; }
+.ans-row .ans-val { flex: 1; }
+.ans-row.your { background: #fdecea; border-color: #f3c4bd; color: #c0392b; }
+.ans-row.correct { background: #e8f7ee; border-color: #bfe6cd; color: #1e7e45; }
 .wrong-act { display: flex; gap: 8px; margin-top: 8px; }
 .empty { text-align: center; color: var(--sub); padding: 40px 0; }
 

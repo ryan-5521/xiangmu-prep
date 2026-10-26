@@ -50,6 +50,18 @@
     if (q.type === "multi") return (idx || []).map(i => String.fromCharCode(65 + i)).join("、");
     return idx == null ? "—" : String.fromCharCode(65 + Number(idx));
   }
+  /* 把作答值格式化为「字母. 选项文本」（填空直接返回原文），便于错题对比 */
+  function fmtAnswer(q, val) {
+    if (!q || !q.options) return (val == null || val === "") ? "—" : String(val);
+    const letter = i => String.fromCharCode(65 + i);
+    if (q.type === "multi") {
+      const arr = (val || []).filter(i => i != null).map(i => letter(i) + ". " + (q.options[i] || ""));
+      return arr.length ? arr.join("；") : "—";
+    }
+    if (val == null) return "—";
+    const i = Number(val);
+    return letter(i) + ". " + (q.options[i] != null ? q.options[i] : "");
+  }
 
   /* ---------- 路由 ---------- */
   function route(v) {
@@ -311,7 +323,16 @@
           el("span", { class: "badge ch" }, w.chapterName || ""),
           w.reviewed ? el("span", { class: "badge ok" }, "已掌握") : null),
         el("div", { class: "wrong-stem" }, w.stem),
-        el("div", { class: "wrong-ans" }, "你的答案：" + answerText(w, w.userAnswer) + "　正确答案：" + answerText(w, w.answer)),
+        el("div", { class: "wrong-ans" },
+          el("div", { class: "ans-row your" },
+            el("span", { class: "ans-label" }, "你的答案"),
+            el("span", { class: "ans-val" }, fmtAnswer(w, w.userAnswer))
+          ),
+          el("div", { class: "ans-row correct" },
+            el("span", { class: "ans-label" }, "正确答案"),
+            el("span", { class: "ans-val" }, fmtAnswer(w, w.answer))
+          )
+        ),
         w.explanation ? el("div", { class: "wrong-exp" }, "解析：" + w.explanation) : null,
         el("div", { class: "wrong-act" },
           el("button", { class: "btn-mini", onclick: () => S.markReviewed(w.id, !w.reviewed) || renderWrong(main) }, w.reviewed ? "取消掌握" : "标记已掌握"),
